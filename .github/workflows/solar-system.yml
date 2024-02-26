@@ -66,6 +66,8 @@ jobs:
     docker:
       name: Containerization
       runs-on: ubuntu-latest
+      permissions:
+        packages: write
       needs: [unit-testing, code-coverage]
       steps:
       - name: Checkout Repo
@@ -78,7 +80,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and Push Docker Image to GHCR
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v4
         with:
           context: .
           push: true
