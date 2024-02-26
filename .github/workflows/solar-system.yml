@@ -45,25 +45,25 @@ jobs:
           path: test-results.xml
 
     code-coverage:
-        name: Code Coverage
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v4
+      name: Code Coverage
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v4
 
-        - uses: actions/setup-node@v4
-          with:
-            node-version: 18
-        
-        - run: npm install
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      
+      - run: npm install
 
-        - continue-on-error: true
-          run: npm run coverage
+      - continue-on-error: true
+        run: npm run coverage
 
-        - uses: actions/upload-artifact@v4
-          with:
-            name: Code-Coverage-Result
-            path: coverage
-            retention-days: 5
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Code-Coverage-Result
+          path: coverage
+          retention-days: 5
 
     docker:
       name: Containerization
@@ -81,9 +81,10 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build and Push Docker Image to GHCR
         uses: docker/build-push-action@v4
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/solar-system:${{ github.sha }}
+          tags: ghcr.io/${{ github.repository_owner }}/github-solar-system:${{ github.sha }}
